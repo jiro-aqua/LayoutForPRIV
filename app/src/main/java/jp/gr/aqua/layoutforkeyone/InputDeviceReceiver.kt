@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package jp.gr.aqua.layoutforkeyone;
+package jp.gr.aqua.layoutforkeyone
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 
-public class InputDeviceReceiver extends BroadcastReceiver {
-    @Override
-    public void onReceive(Context context, Intent intent) {
+class InputDeviceReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
         // Nothing to do at this time.
     }
 }

@@ -1,52 +1,135 @@
 package jp.gr.aqua.layoutforkeyone
 
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.preference.PreferenceManager
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Switch
+import android.widget.TextView
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+
 
 class MainActivity : AppCompatActivity()
 {
     private val TAG = "=====>"
 
+    private val recyclerView by lazy {findViewById(R.id.recyclerView) as RecyclerView }
+    private val helpButton by lazy {findViewById(R.id.help) as Button }
+
+    private val notificationSwitch by lazy {findViewById(R.id.notification_switch) as Switch }
+    private val sharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        KeyboardEnumerator(this).getKeyboards().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    printKeyboards(it)
-                }
     }
 
-    fun printKeyboards( info: KeyboardEnumerator.KeyboardInfo ) {
+    override fun onResume() {
+        super.onResume()
 
-        val pm = packageManager
+        val keyboardEnumerator = KeyboardEnumerator(this)
+        keyboardEnumerator.getKeyboards()
+                .subscribeOn(Schedulers.io())
+                .toList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    infos->
+                    recyclerView.adapter = RecyclerAdapter(this,infos){
+                        info->
+                        keyboardEnumerator.showKeyboardLayoutScreen(info).let{
+                            startActivity( it )
+                            val device = info.getDevice()
+                            val ime = info.getIme(this)
+                            sharedPreferences.edit()
+                                    .putString(KEY_RESET_DEVICE,device)
+                                    .putString(KEY_RESET_IME,ime)
+                                    .apply()
+                            startService(Intent(this, MonitorService::class.java))
+                            finish()
+                        }
+                    }
+                }
 
-        Log.d(TAG, info.deviceInfo.mDeviceName)
-        val imi = info.imi
-        val imSubtype = info.imSubtype
-        if (imi != null) {
-            Log.d(TAG, "imi=" + imi.loadLabel(pm))
+        helpButton.setOnClickListener {
+            AlertDialog.Builder(this).setTitle(R.string.app_label)
+                    .setMessage( getAssets().open("help.txt").reader(charset=Charsets.UTF_8).use{it.readText()} )
+                    .setPositiveButton(R.string.label_ok,null)
+                    .show()
+        }
 
-            try {
-                val appinfo = pm.getApplicationInfo(imi.packageName, 0)
-                Log.d(TAG, "subtype=" + imSubtype!!.getDisplayName(this, imi.packageName, appinfo))
-            } catch (e: PackageManager.NameNotFoundException) {
-                e.printStackTrace()
-            }
-
-            val imename = imi.loadLabel(pm).toString()
-            Log.d(TAG, "layout=" + info.layout)
-//                if (imename.contains("Google")) {
-//                    showKeyboardLayoutScreen(
-//                            keyboards.deviceInfo.mDeviceIdentifier, imi, imSubtype)
-//                }
-            //                    });
+        sharedPreferences.getString(KEY_RESET_DEVICE,null)?.let{
+            startService(Intent(this, MonitorService::class.java))
         }
     }
 
+    private class RecyclerAdapter(private val context: Context,
+                                  private val data: List<KeyboardEnumerator.KeyboardInfo>,
+                                  private val listener: (KeyboardEnumerator.KeyboardInfo)->Unit )
+        : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+
+        private val mInflater: LayoutInflater by lazy {LayoutInflater.from(context)}
+        private val pm by lazy { context.packageManager }
+
+        override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): RecyclerAdapter.ViewHolder {
+            // 表示するレイアウトを設定
+            return ViewHolder(mInflater.inflate(R.layout.keyboard_row, viewGroup, false))
+        }
+
+        override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
+            if (data.size > i) {
+                // データ表示
+                setInfo(viewHolder, data[i])
+                // クリック処理
+                viewHolder.itemView.setOnClickListener { listener(data[i]) }
+            }
+        }
+
+        override fun getItemCount(): Int {
+            return data.size
+        }
+
+        // ViewHolder(固有ならインナークラスでOK)
+        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+            val keyboard by lazy { itemView.findViewById(R.id.keyboard) as TextView }
+            val imi: TextView by lazy { itemView.findViewById(R.id.imi) as TextView }
+            val subtype: TextView by lazy { itemView.findViewById(R.id.subtype) as TextView }
+            val layout: TextView by lazy { itemView.findViewById(R.id.layout) as TextView }
+        }
+
+        private fun setInfo( viewHolder:ViewHolder , info: KeyboardEnumerator.KeyboardInfo ) {
+            viewHolder.keyboard.text = info.deviceInfo.mDeviceName
+
+            val imi = info.imi
+            val imSubtype = info.imSubtype
+
+            viewHolder.imi.text = imi.loadLabel(pm)
+
+            try {
+                val appinfo = pm.getApplicationInfo(imi.packageName, 0)
+                viewHolder.subtype.text = imSubtype!!.getDisplayName(context, imi.packageName, appinfo)
+            } catch (e: PackageManager.NameNotFoundException) {
+                viewHolder.subtype.text = ""
+            }
+
+            viewHolder.layout.text = info.layout.toString()
+        }
+    }
+
+    companion object {
+        public val KEY_RESET_DEVICE = "DEVICE";
+        public val KEY_RESET_IME = "IME";
+    }
 }

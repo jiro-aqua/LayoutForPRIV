@@ -29,19 +29,22 @@ class KeyboardEnumerator(val context : Context){
             val deviceInfo: HardKeyboardDeviceInfo,
             val imi: InputMethodInfo,
             val imSubtype: InputMethodSubtype?,
-            val layout: KeyboardLayout?)
+            val layout: KeyboardLayout?){
+        fun getDevice() : String {
+            return this.deviceInfo.mDeviceName
+        }
+        fun getIme(context:Context) : String {
+            return this.imi.loadLabel(context.packageManager).toString()
+        }
+    }
 
-
-    fun showKeyboardLayoutScreen(
-            inputDeviceIdentifier: InputDeviceIdentifier,
-            imi: InputMethodInfo,
-            imSubtype: InputMethodSubtype?) {
-        val intent = Intent(Intent.ACTION_MAIN)
-        intent.setClassName("com.android.settings", "com.android.settings.Settings\$KeyboardLayoutPickerActivity")
-        intent.putExtra(EXTRA_INPUT_DEVICE_IDENTIFIER, inputDeviceIdentifier)
-        intent.putExtra(EXTRA_INPUT_METHOD_INFO, imi)
-        intent.putExtra(EXTRA_INPUT_METHOD_SUBTYPE, imSubtype)
-        context.startActivity(intent)
+    fun showKeyboardLayoutScreen(info : KeyboardInfo) : Intent {
+        return Intent(Intent.ACTION_MAIN).apply{
+            setClassName("com.android.settings", "com.android.settings.Settings\$KeyboardLayoutPickerActivity")
+            putExtra(EXTRA_INPUT_DEVICE_IDENTIFIER, info.deviceInfo.mDeviceIdentifier)
+            putExtra(EXTRA_INPUT_METHOD_INFO, info.imi)
+            putExtra(EXTRA_INPUT_METHOD_SUBTYPE, info.imSubtype)
+        }
     }
 
     fun getKeyboards() : Observable<KeyboardInfo> {
@@ -150,6 +153,7 @@ class KeyboardEnumerator(val context : Context){
         val EXTRA_INPUT_METHOD_SUBTYPE = "input_method_subtype"
 
     }
+
 
 }
 

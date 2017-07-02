@@ -6,7 +6,13 @@
     <!-- Keyboard layouts label, used to describe the set of all built-in layouts in the UI. [CHAR LIMIT=35] -->
     <string name="keyboard_layouts_label">Keyboard Layout for KEYone</string>
 
-    <string name="keyboard_layout_keyone_atok">_for KEYone &amp; ATOK</string>
-    <string name="keyboard_layout_keyone_googleime">_for KEYone &amp; Google日本語入力</string>
+    <string name="keyboard_layout_keyone">_ for KEYone</string>
+
+    <string name="label_notification">最後に使用した設定と同じ動作を通知から呼び出せるようにする</string>
+
+    <string name="label_reset">再設定：</string>
+
+    <string name="label_help">ヘルプ</string>
+    <string name="label_ok">OK</string>
 
 </resources>

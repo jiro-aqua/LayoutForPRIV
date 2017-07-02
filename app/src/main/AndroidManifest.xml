@@ -3,6 +3,9 @@
       	android:versionCode="1"
       	android:versionName="1.0"
         >
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
             android:label="@string/app_label"
             android:icon="@drawable/ic_launcher"
@@ -10,6 +13,7 @@
 
         <activity android:name=".MainActivity"
             android:theme="@style/AppTheme"
+            android:exported="true"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,14 +21,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ShowKeyboardLayoutScreenActivity"/>
 
         <receiver android:name=".InputDeviceReceiver"
-                android:label="@string/keyboard_layouts_label">
+                android:label="@string/keyboard_layouts_label"
+                android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.hardware.input.action.QUERY_KEYBOARD_LAYOUTS" />
             </intent-filter>
             <meta-data android:name="android.hardware.input.metadata.KEYBOARD_LAYOUTS"
                     android:resource="@xml/keyboard_layouts" />
         </receiver>
+
+        <receiver android:name=".BootCompletedReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".MonitorService"  android:exported="false" />
+
     </application>
+
 </manifest>
