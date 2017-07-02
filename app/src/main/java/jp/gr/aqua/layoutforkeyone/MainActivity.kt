@@ -22,31 +22,30 @@ class MainActivity : AppCompatActivity()
                 }
     }
 
-    fun printKeyboards( keyboards: KeyboardEnumerator.Keyboards ) {
+    fun printKeyboards( info: KeyboardEnumerator.KeyboardInfo ) {
 
         val pm = packageManager
-        Log.d(TAG, keyboards.mDeviceInfo.mDeviceName)
-        for (info in keyboards.mKeyboardInfoList) {
-            val imi = info.mImi
-            val imSubtype = info.mImSubtype
-            if (imi != null) {
-                Log.d(TAG, "imi=" + imi.loadLabel(pm))
 
-                try {
-                    val appinfo = pm.getApplicationInfo(imi.packageName, 0)
-                    Log.d(TAG, "subtype=" + imSubtype!!.getDisplayName(this, imi.packageName, appinfo))
-                } catch (e: PackageManager.NameNotFoundException) {
-                    e.printStackTrace()
-                }
+        Log.d(TAG, info.deviceInfo.mDeviceName)
+        val imi = info.imi
+        val imSubtype = info.imSubtype
+        if (imi != null) {
+            Log.d(TAG, "imi=" + imi.loadLabel(pm))
 
-                val imename = imi.loadLabel(pm).toString()
-                Log.d(TAG, "layout=" + info.mLayout)
+            try {
+                val appinfo = pm.getApplicationInfo(imi.packageName, 0)
+                Log.d(TAG, "subtype=" + imSubtype!!.getDisplayName(this, imi.packageName, appinfo))
+            } catch (e: PackageManager.NameNotFoundException) {
+                e.printStackTrace()
+            }
+
+            val imename = imi.loadLabel(pm).toString()
+            Log.d(TAG, "layout=" + info.layout)
 //                if (imename.contains("Google")) {
 //                    showKeyboardLayoutScreen(
-//                            keyboards.mDeviceInfo.mDeviceIdentifier, imi, imSubtype)
+//                            keyboards.deviceInfo.mDeviceIdentifier, imi, imSubtype)
 //                }
-                //                    });
-            }
+            //                    });
         }
     }
 

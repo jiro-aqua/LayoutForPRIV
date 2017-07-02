@@ -25,21 +25,11 @@ import java.util.Collections
 
 class KeyboardEnumerator(val context : Context){
 
-
-    public class Keyboards(
-            val mDeviceInfo: HardKeyboardDeviceInfo,
-            val mKeyboardInfoList: ArrayList<Keyboards.KeyboardInfo>) : Comparable<Keyboards> {
-        val mCollator = Collator.getInstance()
-
-        override fun compareTo(other: Keyboards): Int {
-            return mCollator.compare(mDeviceInfo.mDeviceName, other.mDeviceInfo.mDeviceName)
-        }
-
-        class KeyboardInfo(
-                val mImi: InputMethodInfo,
-                val mImSubtype: InputMethodSubtype?,
-                val mLayout: KeyboardLayout?)
-    }
+    data class KeyboardInfo(
+            val deviceInfo: HardKeyboardDeviceInfo,
+            val imi: InputMethodInfo,
+            val imSubtype: InputMethodSubtype?,
+            val layout: KeyboardLayout?)
 
 
     fun showKeyboardLayoutScreen(
@@ -54,7 +44,7 @@ class KeyboardEnumerator(val context : Context){
         context.startActivity(intent)
     }
 
-    fun getKeyboards() : Observable<Keyboards> {
+    fun getKeyboards() : Observable<KeyboardInfo> {
         return Observable.create {
             subscriber->
             val imm = context.getSystemService(InputMethodManager::class.java)
@@ -64,7 +54,6 @@ class KeyboardEnumerator(val context : Context){
 
             if (imm != null && im != null) {
                 for (deviceInfo in hardKeyboards) {
-                    val keyboardInfoList = ArrayList<Keyboards.KeyboardInfo>()
                     for (imi in imm.enabledInputMethodList) {
                         val subtypes = imm.getEnabledInputMethodSubtypeList(
                                 imi, true /* allowsImplicitlySelectedSubtypes */)
@@ -73,7 +62,7 @@ class KeyboardEnumerator(val context : Context){
                             val nullSubtype: InputMethodSubtype? = null
                             val layout = im.getKeyboardLayoutForInputDevice(
                                     deviceInfo.mDeviceIdentifier, imi, nullSubtype)
-                            keyboardInfoList.add(Keyboards.KeyboardInfo(imi, nullSubtype, layout))
+                            subscriber.onNext(KeyboardInfo(deviceInfo,imi, nullSubtype, layout))
                             continue
                         }
 
@@ -86,10 +75,9 @@ class KeyboardEnumerator(val context : Context){
                             }
                             val layout = im.getKeyboardLayoutForInputDevice(
                                     deviceInfo.mDeviceIdentifier, imi, subtype)
-                            keyboardInfoList.add(Keyboards.KeyboardInfo(imi, subtype, layout))
+                            subscriber.onNext(KeyboardInfo(deviceInfo,imi, subtype, layout))
                         }
                     }
-                    subscriber.onNext(Keyboards(deviceInfo, keyboardInfoList))
                 }
             }
             subscriber.onCompleted()
