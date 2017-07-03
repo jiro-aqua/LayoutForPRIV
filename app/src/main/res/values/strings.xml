@@ -6,13 +6,23 @@
     <!-- Keyboard layouts label, used to describe the set of all built-in layouts in the UI. [CHAR LIMIT=35] -->
     <string name="keyboard_layouts_label">Keyboard Layout for KEYone</string>
 
-    <string name="keyboard_layout_keyone">_ for KEYone</string>
+    <string name="keyboard_layout_keyone_atok">_for ATOK</string>
+    <string name="keyboard_layout_keyone_googleime">_for Google日本語入力</string>
 
     <string name="label_notification">最後に使用した設定と同じ動作を通知から呼び出せるようにする</string>
 
     <string name="label_reset">再設定：</string>
 
     <string name="label_help">ヘルプ</string>
+    <string name="label_oss">OSSライセンス</string>
     <string name="label_ok">OK</string>
 
+    <string name="label_agree">許諾</string>
+    <string name="label_disagree">拒絶</string>
+
+    <string name="toast_uninstall">アンインストールしてください</string>
+    <string name="toast_select_ime">IMEに合わせたレイアウトを選んでください</string>
+    <string name="toast_select_keyboard">キーボードに合わせたレイアウトを選んでください</string>
+
+    <string name="label_copyright">©2017, Aquamarine Networks.</string>
 </resources>

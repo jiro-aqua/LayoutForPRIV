@@ -1,8 +1,10 @@
 package jp.gr.aqua.layoutforkeyone
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
@@ -15,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
+import android.widget.Toast
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
@@ -25,6 +28,7 @@ class MainActivity : AppCompatActivity()
 
     private val recyclerView by lazy {findViewById(R.id.recyclerView) as RecyclerView }
     private val helpButton by lazy {findViewById(R.id.help) as Button }
+    private val ossButton by lazy {findViewById(R.id.oss) as Button }
 
     private val notificationSwitch by lazy {findViewById(R.id.notification_switch) as Switch }
     private val sharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
@@ -56,22 +60,55 @@ class MainActivity : AppCompatActivity()
                                     .putString(KEY_RESET_DEVICE,device)
                                     .putString(KEY_RESET_IME,ime)
                                     .apply()
+                            if ( device == "stmpe_keypad" ){
+                                Toast.makeText(this,R.string.toast_select_ime,Toast.LENGTH_LONG).show()
+                            }else{
+                                Toast.makeText(this,R.string.toast_select_keyboard,Toast.LENGTH_LONG).show()
+                            }
                             startService(Intent(this, MonitorService::class.java))
                             finish()
                         }
                     }
                 }
 
-        helpButton.setOnClickListener {
+
+        val agree = {
+            sharedPreferences.edit().putBoolean(KEY_AGREEMENT,true).apply()
             AlertDialog.Builder(this).setTitle(R.string.app_label)
                     .setMessage( getAssets().open("help.txt").reader(charset=Charsets.UTF_8).use{it.readText()} )
                     .setPositiveButton(R.string.label_ok,null)
                     .show()
         }
 
-        sharedPreferences.getString(KEY_RESET_DEVICE,null)?.let{
+        val disagree = {
+            val storeIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=jp.gr.aqua.layoutforkeyone"))
+            startActivity(storeIntent)
+            Toast.makeText(this,R.string.toast_uninstall,Toast.LENGTH_LONG).show()
+            finish()
+        }
+
+        helpButton.setOnClickListener { agree() }
+
+        ossButton.setOnClickListener {
+            AlertDialog.Builder(this).setTitle(R.string.app_label)
+                    .setMessage( getAssets().open("notice.txt").reader(charset=Charsets.UTF_8).use{it.readText()} )
+                    .setPositiveButton(R.string.label_ok,null)
+                    .show()
+        }
+
+        sharedPreferences.getString(KEY_RESET_DEVICE,null)?.let {
             startService(Intent(this, MonitorService::class.java))
         }
+
+        sharedPreferences.getBoolean(KEY_AGREEMENT,false).then {
+            AlertDialog.Builder(this).setTitle(R.string.app_label)
+                    .setMessage( getAssets().open("caution.txt").reader(charset=Charsets.UTF_8).use{it.readText()} )
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.label_agree,{di,i->agree()})
+                    .setNegativeButton(R.string.label_disagree,{di,i->disagree()})
+                    .show()
+        }
+
     }
 
     private class RecyclerAdapter(private val context: Context,
@@ -129,7 +166,10 @@ class MainActivity : AppCompatActivity()
     }
 
     companion object {
-        public val KEY_RESET_DEVICE = "DEVICE";
-        public val KEY_RESET_IME = "IME";
+        val KEY_AGREEMENT = "AGREEMENT";
+        val KEY_RESET_DEVICE = "DEVICE";
+        val KEY_RESET_IME = "IME";
     }
+
+    private fun Boolean.then( block : ()->Unit ) = { if ( this ) block() }
 }

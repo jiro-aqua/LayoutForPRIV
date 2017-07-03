@@ -1,0 +1,260 @@
+# Copyright (C) 2012 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# Japanese (JP) keyboard layout.
+#
+
+type OVERLAY
+
+#map key 58 MENU
+
+map key 42 CTRL_LEFT
+map key 5 MINUS
+map key 100 AT
+map key 11 EQUALS
+#map key 14 COMMA
+#map key 125 HOME
+#map key 28 GRAVE
+
+### ROW 1
+key Q {
+    label:                              'Q'
+    base:                               'q'
+    shift, capslock:                    'Q'
+    alt:                                '#'
+}
+
+key W {
+    label:                              'W'
+    base:                               'w'
+    shift, capslock:                    'W'
+    alt:                                '1'
+}
+
+key E {
+    label:                              'E'
+    base:                               'e'
+    shift, capslock:                    'E'
+    alt:                                '2'
+}
+
+key R {
+    label:                              'R'
+    base:                               'r'
+    shift, capslock:                    'R'
+    alt:                                '3'
+}
+
+key T {
+    label:                              'T'
+    base:                               't'
+    shift, capslock:                    'T'
+    alt:                                '('
+}
+
+key Y {
+    label:                              'Y'
+    base:                               'y'
+    shift, capslock:                    'Y'
+    alt:                                ')'
+}
+
+key U {
+    label:                              'U'
+    base:                               'u'
+    shift, capslock:                    'U'
+    alt:                                '_'
+}
+
+key I {
+    label:                              'I'
+    base:                               'i'
+    shift, capslock:                    'I'
+    alt:                                '$'
+}
+
+key O {
+    label:                              'O'
+    base:                               'o'
+    shift, capslock:                    'O'
+    alt:                                '+'
+}
+
+key P {
+    label:                              'P'
+    base:                               'p'
+    shift, capslock:                    'P'
+    alt:                                '@'
+}
+
+
+### ROW 2
+key A {
+    label:                              'A'
+    base:                               'a'
+    shift, capslock:                    'A'
+    alt:                                '*'
+}
+
+key S {
+    label:                              'S'
+    base:                               's'
+    shift, capslock:                    'S'
+    alt:                                '4'
+}
+
+key D {
+    label:                              'D'
+    base:                               'd'
+    shift, capslock:                    'D'
+    alt:                                '5'
+}
+
+key F {
+    label:                              'F'
+    base:                               'f'
+    shift, capslock:                    'F'
+    alt:                                '6'
+}
+
+key G {
+    label:                              'G'
+    base:                               'g'
+    shift, capslock:                    'G'
+    alt:                                '/'
+}
+
+key H {
+    label:                              'H'
+    base:                               'h'
+    shift, capslock:                    'H'
+    alt:                                ':'
+}
+
+key J {
+    label:                              'J'
+    base:                               'j'
+    shift, capslock:                    'J'
+    alt:                                ';'
+}
+
+key K {
+    label:                              'K'
+    base:                               'k'
+    shift, capslock:                    'K'
+    alt:                                '\''
+}
+
+key L {
+    label:                              'L'
+    base:                               'l'
+    shift, capslock:                    'L'
+    alt:                                '\"'
+}
+
+
+### ROW 3
+
+key Z {
+    label:                              'Z'
+    base:                               'z'
+    shift, capslock:                    'Z'
+    alt:                                '7'
+}
+
+key X {
+    label:                              'X'
+    base:                               'x'
+    shift, capslock:                    'X'
+    alt:                                '8'
+}
+
+key C {
+    label:                              'C'
+    base:                               'c'
+    shift, capslock:                    'C'
+    alt:                                '9'
+}
+
+key V {
+    label:                              'V'
+    base:                               'v'
+    shift, capslock:                    'V'
+    alt:                                '?'
+}
+
+key B {
+    label:                              'B'
+    base:                               'b'
+    shift, capslock:                    'B'
+    alt:                                '!'
+}
+
+key N {
+    label:                              'N'
+    base:                               'n'
+    shift, capslock:                    'N'
+    alt:                                ','
+}
+
+key M {
+    label:                              'M'
+    base:                               'm'
+    shift, capslock:                    'M'
+    alt:                                '.'
+}
+
+
+# $ KEY
+key MINUS {
+    label, number:                      '-'
+    base:                               '-'
+    shift:                              '='
+    alt:                                '\\'
+}
+
+### ROW 4
+
+# ENTER KEY
+key GRAVE {
+    label, number:                      fallback ENTER
+    base:                               fallback ENTER
+    shift:                              fallback ENTER
+    alt:                                fallback ENTER
+}
+
+# SYM KEY
+key AT {
+    label, number:                      fallback DPAD_RIGHT
+    base:                               fallback DPAD_RIGHT
+    shift:                              fallback DPAD_RIGHT
+    alt:                                fallback SYM
+}
+
+# 0 KEY
+key EQUALS {
+    label, number:                      fallback DPAD_LEFT
+    base:                               fallback DPAD_LEFT
+    shift:                              fallback DPAD_LEFT
+    alt:                                '0'
+}
+
+# BACKSPACE KEY for Google Japanese Input
+key COMMA {
+    label, number:                      fallback DEL
+    base:                               fallback DEL
+    shift:                              fallback DEL
+    alt:                                fallback FORWARD_DEL
+}

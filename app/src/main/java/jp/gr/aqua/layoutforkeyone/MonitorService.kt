@@ -23,11 +23,11 @@ class MonitorService : Service() {
 
         val device = sharedPreferences.getString(MainActivity.KEY_RESET_DEVICE,null)
         val ime = sharedPreferences.getString(MainActivity.KEY_RESET_IME,null)
-        startForeground(NOTIFICATION_ID, getNotification(this, ime))
+        startForeground(NOTIFICATION_ID, getNotification(this, device, ime))
         return Service.START_STICKY
     }
 
-    private fun getNotification(context: Context, ime : String ): Notification {
+    private fun getNotification(context: Context, device: String , ime : String ): Notification {
 
         val intent = Intent(this, ShowKeyboardLayoutScreenActivity::class.java)
 
@@ -37,7 +37,7 @@ class MonitorService : Service() {
                 .setContentIntent(contextIntent)
                 .setSmallIcon(R.drawable.ic_empty)
                 .setContentTitle(getString(R.string.keyboard_layouts_label))
-                .setContentText("${getString(R.string.label_reset)}${ime}")
+                .setContentText("${getString(R.string.label_reset)} ${device} ${ime}")
                 .setPriority(Notification.PRIORITY_MIN)
                 .build()
 

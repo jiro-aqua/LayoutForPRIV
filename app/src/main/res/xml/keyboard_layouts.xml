@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <keyboard-layouts xmlns:android="http://schemas.android.com/apk/res/android">
-    <keyboard-layout android:name="keyboard_layout_keyone"
-            android:label="@string/keyboard_layout_keyone"
-            android:keyboardLayout="@raw/keyboard_layout_keyone" />
+    <keyboard-layout android:name="keyboard_layout_keyone_atok"
+            android:label="@string/keyboard_layout_keyone_atok"
+            android:keyboardLayout="@raw/keyboard_layout_keyone_atok" />
+
+    <keyboard-layout android:name="keyboard_layout_keyone_googleime"
+                     android:label="@string/keyboard_layout_keyone_googleime"
+                     android:keyboardLayout="@raw/keyboard_layout_keyone_googleime" />
 
 </keyboard-layouts>

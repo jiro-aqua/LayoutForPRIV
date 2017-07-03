@@ -4,19 +4,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="KEYone"
-        />
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#F000"
-        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -37,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="end"
         >
         <Button
             android:id="@+id/help"
@@ -45,6 +33,19 @@
             android:text="@string/label_help"
             />
 
+        <Button
+            android:id="@+id/oss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_oss"
+            />
+
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_copyright"
+        android:gravity="end"
+        />
 </LinearLayout>

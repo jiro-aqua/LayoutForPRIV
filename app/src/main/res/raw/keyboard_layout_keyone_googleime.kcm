@@ -26,7 +26,7 @@ map key 100 AT
 map key 11 EQUALS
 #map key 14 COMMA
 #map key 125 HOME
-
+map key 57 GRAVE
 
 ### ROW 1
 key Q {
@@ -82,7 +82,7 @@ key I {
     label:                              'I'
     base:                               'i'
     shift, capslock:                    'I'
-    alt:                                '-'
+    alt:                                '$'
 }
 
 key O {
@@ -226,6 +226,14 @@ key MINUS {
 }
 
 ### ROW 4
+
+# SPACE KEY
+key GRAVE {
+    label, number:                      fallback SPACE
+    base:                               fallback SPACE
+    shift:                              fallback SPACE
+    alt:                                fallback SPACE
+}
 
 # SYM KEY
 key AT {
