@@ -100,12 +100,12 @@ class MainActivity : AppCompatActivity()
             startService(Intent(this, MonitorService::class.java))
         }
 
-        sharedPreferences.getBoolean(KEY_AGREEMENT,false).then {
+        if ( !sharedPreferences.getBoolean(KEY_AGREEMENT,false) ){
             AlertDialog.Builder(this).setTitle(R.string.app_label)
                     .setMessage( getAssets().open("caution.txt").reader(charset=Charsets.UTF_8).use{it.readText()} )
                     .setCancelable(false)
                     .setPositiveButton(R.string.label_agree,{di,i->agree()})
-                    .setNegativeButton(R.string.label_disagree,{di,i->disagree()})
+                    .setNeutralButton(R.string.label_disagree,{di,i->disagree()})
                     .show()
         }
 
@@ -170,6 +170,4 @@ class MainActivity : AppCompatActivity()
         val KEY_RESET_DEVICE = "DEVICE";
         val KEY_RESET_IME = "IME";
     }
-
-    private fun Boolean.then( block : ()->Unit ) = { if ( this ) block() }
 }

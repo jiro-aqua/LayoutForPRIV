@@ -1,6 +1,0 @@
-Keyboard Layout for KEYone をご利用いただき、ありがとうございます。
-
-このアプリは
-・KEYoneでは非表示となっているキーボードレイアウト設定画面を呼び出す機能
-・KEYoneの内蔵キーボードでATOK Passport/Google日本語入力を使うための機能
-の
