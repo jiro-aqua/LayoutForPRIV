@@ -8,4 +8,12 @@
                      android:label="@string/keyboard_layout_keyone_googleime"
                      android:keyboardLayout="@raw/keyboard_layout_keyone_googleime" />
 
+    <keyboard-layout android:name="keyboard_layout_keyone_atok_bb"
+                     android:label="@string/keyboard_layout_keyone_atok_bb"
+                     android:keyboardLayout="@raw/keyboard_layout_keyone_atok_bb" />
+
+    <keyboard-layout android:name="keyboard_layout_keyone_googleime_bb"
+                     android:label="@string/keyboard_layout_keyone_googleime_bb"
+                     android:keyboardLayout="@raw/keyboard_layout_keyone_googleime_bb" />
+
 </keyboard-layouts>

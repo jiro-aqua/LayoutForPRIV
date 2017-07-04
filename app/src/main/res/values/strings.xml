@@ -8,6 +8,8 @@
 
     <string name="keyboard_layout_keyone_atok">_for ATOK</string>
     <string name="keyboard_layout_keyone_googleime">_for Google日本語入力</string>
+    <string name="keyboard_layout_keyone_atok_bb">BlackBerry Layout for ATOK</string>
+    <string name="keyboard_layout_keyone_googleime_bb">BlackBerry Layout for Google日本語入力</string>
 
     <string name="label_notification">最後に使用した設定と同じ動作を通知から呼び出せるようにする</string>
 
