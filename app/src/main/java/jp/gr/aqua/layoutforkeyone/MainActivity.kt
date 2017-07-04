@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity()
 
             try {
                 val appinfo = pm.getApplicationInfo(imi.packageName, 0)
-                viewHolder.subtype.text = imSubtype!!.getDisplayName(context, imi.packageName, appinfo)
+                viewHolder.subtype.text = imSubtype?.getDisplayName(context, imi.packageName, appinfo) ?: ""
             } catch (e: PackageManager.NameNotFoundException) {
                 viewHolder.subtype.text = ""
             }

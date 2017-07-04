@@ -23,7 +23,9 @@ class MonitorService : Service() {
 
         val device = sharedPreferences.getString(MainActivity.KEY_RESET_DEVICE,null)
         val ime = sharedPreferences.getString(MainActivity.KEY_RESET_IME,null)
-        startForeground(NOTIFICATION_ID, getNotification(this, device, ime))
+        if ( device != null && ime != null ) {
+            startForeground(NOTIFICATION_ID, getNotification(this, device, ime))
+        }
         return Service.START_STICKY
     }
 
