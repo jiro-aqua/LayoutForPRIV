@@ -221,8 +221,8 @@ key M {
 key MINUS {
     label, number:                      '-'
     base:                               '-'
-    shift:                              '='
-    alt:                                '\\'
+    shift:                              '\\'
+    alt:                                '='
 }
 
 ### ROW 4
