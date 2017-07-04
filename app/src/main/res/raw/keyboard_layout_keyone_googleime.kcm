@@ -21,12 +21,12 @@ type OVERLAY
 #map key 58 MENU
 
 map key 42 CTRL_LEFT
-map key 5 MINUS
+map key 5 GRAVE
 map key 100 AT
 map key 11 EQUALS
 #map key 14 COMMA
 #map key 125 HOME
-map key 57 GRAVE
+#map key 57 GRAVE
 
 ### ROW 1
 key Q {
@@ -218,22 +218,21 @@ key M {
 
 
 # $ KEY
-key MINUS {
+key GRAVE {
     label, number:                      '-'
     base:                               '-'
-    shift:                              '='
-    alt:                                '\\'
+    shift:                              '\\'
+    alt:                                fallback GRAVE
 }
 
 ### ROW 4
 
-# SPACE KEY
-key GRAVE {
-    label, number:                      fallback SPACE
-    base:                               fallback SPACE
-    shift:                              fallback SPACE
-    alt:                                fallback SPACE
-}
+## SPACE KEY
+#key SPACE {
+#    label, number:                      fallback SPACE
+#    base:                               fallback SPACE
+#    shift:                              fallback SPACE
+#}
 
 # SYM KEY
 key AT {
