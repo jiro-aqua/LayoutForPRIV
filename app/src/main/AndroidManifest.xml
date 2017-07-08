@@ -41,6 +41,8 @@
         </receiver>
         <service android:name=".MonitorService"  android:exported="false" />
 
+        <uses-library android:name="com.blackberry.only" android:required="true"/>
+
     </application>
 
 </manifest>
