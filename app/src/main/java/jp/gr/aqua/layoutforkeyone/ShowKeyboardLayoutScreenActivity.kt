@@ -13,17 +13,16 @@ class ShowKeyboardLayoutScreenActivity : Activity()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val device = sharedPreferences.getString(MainActivity.KEY_RESET_DEVICE, null)
-        val ime = sharedPreferences.getString(MainActivity.KEY_RESET_IME, null)
-        if (device != null && ime != null) {
+        if (device != null ) {
             val keyboardEnumerator = KeyboardEnumerator(this)
             keyboardEnumerator.getKeyboards()
                     .subscribeOn(Schedulers.io())
-                    .filter { it.getDevice() == device && it.getIme(this) == ime }
+                    .filter { it.deviceName == device }
                     .first()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
                         info ->
-                        startActivity(KeyboardEnumerator(this).showKeyboardLayoutScreen(info))
+                        startActivity(KeyboardEnumerator(this).showKeyboardLayoutScreen(info.identifier))
                     }
         }
         finish()

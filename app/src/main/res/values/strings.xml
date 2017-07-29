@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Name of the application. [CHAR LIMIT=35] -->
-    <string name="app_label">Layout for KEYone</string>
+    <string name="app_label">Layout for PRIV</string>
 
     <!-- Keyboard layouts label, used to describe the set of all built-in layouts in the UI. [CHAR LIMIT=35] -->
-    <string name="keyboard_layouts_label">Keyboard Layout for KEYone</string>
+    <string name="keyboard_layouts_label">Layout for PRIV</string>
 
     <string name="keyboard_layout_keyone_atok">_for ATOK</string>
     <string name="keyboard_layout_keyone_googleime">_for Google日本語入力</string>

@@ -22,14 +22,13 @@ class MonitorService : Service() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 
         val device = sharedPreferences.getString(MainActivity.KEY_RESET_DEVICE,null)
-        val ime = sharedPreferences.getString(MainActivity.KEY_RESET_IME,null)
-        if ( device != null && ime != null ) {
-            startForeground(NOTIFICATION_ID, getNotification(this, device, ime))
+        if ( device != null ) {
+            startForeground(NOTIFICATION_ID, getNotification(this, device))
         }
         return Service.START_STICKY
     }
 
-    private fun getNotification(context: Context, device: String , ime : String ): Notification {
+    private fun getNotification(context: Context, device: String ): Notification {
 
         val intent = Intent(this, ShowKeyboardLayoutScreenActivity::class.java)
 
@@ -39,7 +38,7 @@ class MonitorService : Service() {
                 .setContentIntent(contextIntent)
                 .setSmallIcon(R.drawable.ic_empty)
                 .setContentTitle(getString(R.string.keyboard_layouts_label))
-                .setContentText("${getString(R.string.label_reset)} ${device} ${ime}")
+                .setContentText("${getString(R.string.label_reset)} ${device}")
                 .setPriority(Notification.PRIORITY_MIN)
                 .build()
 
